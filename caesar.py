@@ -1,28 +1,39 @@
-from helpers import alphabet_position, rotate_character
+def alphabet_position(character):
+    alphabet = 'abcdefghijklmnopqrstuvwxyz'
+    lower = character.lower()
+    return alphabet.index(lower)
 
-import string
-ignorez=string.punctuation
-digits=string.digits
+def rotate_string_13(text):
 
-def encrypt(stringy, move):
-  final_sentence=''
-  int_move=int(move)
-  for i in stringy:
-    if i in ignorez:
-      final_sentence+=i
-    elif i in string.whitespace:
-      final_sentence+=' '
-    elif i in digits:
-      final_sentence+=i
+    rotated = ''
+    alphabet = 'abcdefghijklmnopqrstuvwxyz'
+
+    for char in text:
+        rotated_idx = (alphabet_position(char) + 13) % 26
+        if char.isupper():
+            rotated = rotated + alphabet[rotated_idx].upper()
+        else:
+            rotated = rotated + alphabet[rotated_idx]
+
+    return rotated
+
+def rotate_character(char, rot):
+    alphabet = 'abcdefghijklmnopqrstuvwxyz'
+    rotated_idx = (alphabet_position(char) + rot) % 26
+
+    if char.isupper():
+        return alphabet[rotated_idx].upper()
     else:
-        final_sentence+=rotate_character(alphabet_position(i),int_move,i)
+        return alphabet[rotated_idx]
 
-  return final_sentence
+def rotate_string(text, rot):
 
-def main():
-  userstuff=input("what do you want to encode ")
-  move=input("how much to moveit ")
-  print(encrypt(userstuff,move))
+    rotated = ''
 
-if __name__=="__main__":
-  main()
+    for char in text:
+        if (char.isalpha()):
+            rotated = rotated + rotate_character(char, rot)
+        else:
+            rotated = rotated + char
+
+    return rotated
